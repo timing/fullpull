@@ -1,6 +1,7 @@
-import glob
+from glob import glob
 from subprocess import call
-import shlex
+from shlex import split
+from sys import exit
 
 rcs = {
 	'.git': 'git pull',
@@ -8,7 +9,7 @@ rcs = {
 	'.bzr': 'bzr pull'
 }
 
-hiddenFiles = glob.glob('.*')
+hiddenFiles = glob('.*')
 
 found = False
 
@@ -16,7 +17,8 @@ for hiddenFile in hiddenFiles:
 	if hiddenFile in rcs:
 		found = True
 		print 'Found ' + hiddenFile[1:] + ' repository! Running ' + rcs[hiddenFile]
-		call(shlex.split(rcs[hiddenFile]))
+		call(split(rcs[hiddenFile]))
+		exit()
 
 if found == False:
 	print "No (known) revision control system found in this directory"
